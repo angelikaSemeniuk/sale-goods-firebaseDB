@@ -1,7 +1,7 @@
 import React from "react";
 import firebase from "firebase";
 import { connect } from "react-redux";
-import { setArrayOfItems } from "../actions";
+import { setArrayOfItems, getClearArrayOfItems } from "../actions";
 
 
 class BoardWithItems extends React.Component {
@@ -14,6 +14,11 @@ class BoardWithItems extends React.Component {
                     this.props.setArrayOfItems(item.key, item.val().status, item.val().price)
                 ))
             ))
+    }
+
+    componentWillUnmount () {
+        this.props.getClearArrayOfItems();
+
     }
 
     render() {
@@ -44,6 +49,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         setArrayOfItems: (title, status, price) => {
             dispatch(setArrayOfItems(title, status, price));
+        },
+        getClearArrayOfItems: () => {
+           dispatch(getClearArrayOfItems());
         }
     }
 };

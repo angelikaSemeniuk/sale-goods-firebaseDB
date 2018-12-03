@@ -1,5 +1,11 @@
 import React from "react";
+import { connect } from "react-redux";
+
 import BoardWithItems from "../containers/BoardWithItems";
+import InputSearch from "../containers/InputSearch";
+
+import { handleChangeOnInput } from "../actions";
+
 class App extends React.Component {
     render() {
         return(
@@ -12,10 +18,27 @@ class App extends React.Component {
                         placeholder="Search movie..."
                     />
                 </div>
-                <BoardWithItems/>
+                {this.props.inputValue ?
+                    <InputSearch/> :
+                    <BoardWithItems/>
+                }
             </>
         );
     }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+    return {
+        inputValue: state.inputValue
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        handleChangeOnInput: (event) => {
+            dispatch(handleChangeOnInput(event.target.value));
+        }
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
