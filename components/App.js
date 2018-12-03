@@ -1,9 +1,19 @@
 import React from "react";
-
+import BoardWithItems from "../containers/BoardWithItems";
 class App extends React.Component {
     render() {
         return(
-            <h1>Hello</h1>
+            <>
+                <div className="search-container">
+                    <input
+                        type="search"
+                        value={this.props.inputValue}
+                        onChange={this.props.handleChangeOnInput.bind(this)}
+                        placeholder="Search movie..."
+                    />
+                </div>
+                <BoardWithItems/>
+            </>
         );
     }
 }
