@@ -11,7 +11,7 @@ class BoardWithItems extends React.Component {
         ref.orderByKey().once("value")
             .then( (snapshot) => (
                 snapshot.forEach( (item) => (
-                    this.props.setArrayOfItems(item.key, item.val().status, item.val().price)
+                    this.props.setArrayOfItems(item.val().title, item.val().status, item.val().price)
                 ))
             ))
     }
@@ -32,13 +32,16 @@ class BoardWithItems extends React.Component {
        if(!this.props.haveGotItems) {
            return <div>Hello</div>
        } else {
-           return <ul>{list}</ul>
+           return(
+               <>
+                   <ul>{list}</ul>
+               </>
+           )
        }
     }
 }
 
 const mapStateToProps = (state) => {
-    console.error("action-ITEMS", state.items);
     return {
         items: state.items,
         haveGotItems: state.haveGotItems

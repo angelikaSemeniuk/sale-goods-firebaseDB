@@ -24,3 +24,36 @@ export function getClearArrayOfSearchedItems() {
         type: "GET_CLEAR_ARRAY_OF_SEARCHED_ITEMS"
     }
 }
+
+export function handleChangeOfTitle(title) {
+    return {
+        type: "HANDLE_CHANGE_OF_TITLE",
+        value: title
+    }
+}
+
+export function handleChangeOfStatus(status) {
+    return {
+        type: "HANDLE_CHANGE_OF_STATUS",
+        value: status
+    }
+}
+
+export function handleChangeOfPrice(price) {
+    return {
+        type: "HANDLE_CHANGE_OF_PRICE",
+        value: price
+    }
+}
+
+export function addItemFunc() {
+    return {
+        type: "ADD_ITEM"
+    }
+}
+
+export function handleSubmitOnForm() {
+    return {
+        type: "HANDLE_SUBMIT_ON_FORM"
+    }
+}

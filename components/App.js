@@ -3,8 +3,9 @@ import { connect } from "react-redux";
 
 import BoardWithItems from "../containers/BoardWithItems";
 import InputSearch from "../containers/InputSearch";
+import FormForAddingItem from "../containers/FormForAddingItem";
 
-import { handleChangeOnInput } from "../actions";
+import {addItemFunc, handleChangeOnInput} from "../actions";
 
 class App extends React.Component {
     render() {
@@ -15,9 +16,13 @@ class App extends React.Component {
                         type="search"
                         value={this.props.inputValue}
                         onChange={this.props.handleChangeOnInput.bind(this)}
-                        placeholder="Search movie..."
+                        placeholder="Search item..."
                     />
                 </div>
+                { !this.props.addItem ?
+                    <button onClick={this.props.addItemFunc.bind(this)}>Add item</button> :
+                    <FormForAddingItem/>
+                }
                 {this.props.inputValue ?
                     <InputSearch/> :
                     <BoardWithItems/>
@@ -29,7 +34,8 @@ class App extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        inputValue: state.inputValue
+        inputValue: state.inputValue,
+        addItem: state.addItem
     }
 };
 
@@ -37,6 +43,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         handleChangeOnInput: (event) => {
             dispatch(handleChangeOnInput(event.target.value));
+        },
+        addItemFunc: () => {
+            dispatch(addItemFunc());
         }
     }
 };
