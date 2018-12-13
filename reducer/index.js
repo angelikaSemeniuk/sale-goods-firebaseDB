@@ -6,7 +6,14 @@ const initialState = {
     inputValue: "",
     title: "",
     status: "",
-    price: ""
+    price: "",
+    openedModalWindow: false,
+    login:"",
+    password: "",
+    submit: false,
+    authorized: false,
+    error: "",
+    currentUser: ""
 };
 
 const reducer = (state = initialState, action) => {
@@ -61,6 +68,45 @@ const reducer = (state = initialState, action) => {
                 title: "",
                 status: "",
                 price: ""
+            })
+        }
+        case "OPEN_MODAL_WINDOW": {
+            return Object.assign({}, state, {
+                openedModalWindow: true
+            })
+        }
+        case "CLOSE_MODAL_WINDOW": {
+            return Object.assign({}, state, {
+                openedModalWindow: false
+            })
+        }
+        case "CHANGE_USER_LOGIN": {
+            return Object.assign({}, state, {
+                login: action.value
+            })
+        }
+        case "CHANGE_USER_PASSWORD": {
+            return Object.assign({}, state, {
+                password: action.value
+            })
+        }
+        case "MAKE_SUBMIT_ON_SIGN_UP": {
+            return Object.assign({}, state, {
+                submit: true,
+                authorized: true,
+                openedModalWindow: false
+            })
+        }
+        case "CATCH_ERROR": {
+            return Object.assign({}, state, {
+                error: action.value,
+                login: "",
+                password: ""
+            })
+        }
+        case "SET_CURRENT_USER": {
+            return Object.assign({}, state, {
+                currentUser: action.value
             })
         }
         default:

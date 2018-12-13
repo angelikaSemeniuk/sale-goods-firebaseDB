@@ -57,3 +57,49 @@ export function handleSubmitOnForm() {
         type: "HANDLE_SUBMIT_ON_FORM"
     }
 }
+
+export function openModalWindow() {
+    return {
+        type: "OPEN_MODAL_WINDOW"
+    }
+}
+
+export function closeModalWindow() {
+    return {
+        type: "CLOSE_MODAL_WINDOW"
+    }
+}
+
+export function changeLogin (login) {
+    return {
+        type: "CHANGE_USER_LOGIN",
+        value: login
+    }
+}
+
+export function changePassword(password) {
+    return {
+        type: "CHANGE_USER_PASSWORD",
+        value: password
+    }
+}
+
+export function makeSubmitOnSignUpForm() {
+    return {
+        type: "MAKE_SUBMIT_ON_SIGN_UP"
+    }
+}
+
+export function catchError(error) {
+    return {
+        type: "CATCH_ERROR",
+        value: error
+    }
+}
+
+export function setCurrentUser( currentUser) {
+    return {
+        type: "SET_CURRENT_USER",
+        value: currentUser
+    }
+}
