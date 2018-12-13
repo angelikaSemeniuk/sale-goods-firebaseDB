@@ -109,3 +109,35 @@ export function handleSignOut() {
         type: "HANDLE_SIGN_OUT"
     }
 }
+
+export function makeSubmitOnSignInForm() {
+    return {
+        type: "MAKE_SUBMIT_ON_SIGN_IN"
+    }
+}
+
+export function handleChangingThePage() {
+    return {
+        type: "HANDLE_CHANGING_THE_PAGE"
+    }
+}
+
+export function addItemToBasket(title, price) {
+    return {
+        type: "ADD_ITEM_TO_BASKET",
+        value: [{title: title, price: price}]
+
+    }
+}
+export function showInfoMessage() {
+    return {
+        type: "SHOW_INFO_MESSAGE"
+    }
+}
+
+export function closeInfoMessage() {
+    return {
+        type: "CLOSE_INFO_MESSAGE"
+    }
+
+}

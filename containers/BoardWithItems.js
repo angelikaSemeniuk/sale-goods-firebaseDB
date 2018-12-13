@@ -1,7 +1,13 @@
 import React from "react";
 import firebase from "firebase";
 import { connect } from "react-redux";
-import { setArrayOfItems, getClearArrayOfItems } from "../actions";
+import ListItem from "../containers/ListItem";
+import {
+    setArrayOfItems,
+    getClearArrayOfItems,
+    catchError,
+    addItemToBasket
+} from "../actions";
 
 
 class BoardWithItems extends React.Component {
@@ -23,11 +29,10 @@ class BoardWithItems extends React.Component {
 
     render() {
         const list = this.props.items.map((item, index) => (
-            <li key={index}>
-                <h3>{item.title}</h3>
-                <p dangerouslySetInnerHTML={{__html: "Status:  "+ item.status}}></p>
-                <p dangerouslySetInnerHTML={{__html: "Price:  "+ item.price}}></p>
-            </li>
+            <ListItem
+                item={item}
+                key={index}
+            />
         ));
        if(!this.props.haveGotItems) {
            return <div>Hello</div>

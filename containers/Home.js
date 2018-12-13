@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 import Modal from "react-modal";
 import firebase from "firebase";
 
-
-
 import BoardWithItems from "../containers/BoardWithItems";
 import InputSearch from "../containers/InputSearch";
 import FormForAddingItem from "../containers/FormForAddingItem";
@@ -70,17 +68,18 @@ class Home extends React.Component {
                   <p onClick={this.props.openModalWindow.bind(this)}>Personal Cabinet</p> :
                   <>
                       {this.props.error && <p className="error" dangerouslySetInnerHTML={{__html: this.props.error}}></p>}
-                      <button onClick={this.handleSignOut.bind(this)}>Sign out</button>
                       <p dangerouslySetInnerHTML={{__html: "Welcome, " + this.props.currentUser}}></p>
+                      <button onClick={this.handleSignOut.bind(this)}>Sign out</button>
+
+                      { !this.props.addItem ?
+                          <button onClick={this.props.addItemFunc.bind(this)}>Add item</button> :
+                          <FormForAddingItem/>
+                      }
                   </>;
         return(
             <>
                 <div className="search-container">{inputSearch}</div>
                 <div className="personal-cabinet">{personalCabinet}</div>
-                { !this.props.addItem ?
-                    <button onClick={this.props.addItemFunc.bind(this)}>Add item</button> :
-                    <FormForAddingItem/>
-                }
                 {this.props.inputValue ?
                     <InputSearch/> :
                     <BoardWithItems/>

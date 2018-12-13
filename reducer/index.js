@@ -13,7 +13,9 @@ const initialState = {
     submit: false,
     authorized: false,
     error: "",
-    currentUser: ""
+    currentUser: "",
+    mybasket:[],
+    showedInfoMessage: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -80,6 +82,16 @@ const reducer = (state = initialState, action) => {
                 openedModalWindow: false
             })
         }
+        case "SHOW_INFO_MESSAGE": {
+            return Object.assign({}, state, {
+                showedInfoMessage: true
+            })
+        }
+        case "CLOSE_INFO_MESSAGE": {
+            return Object.assign({}, state, {
+                showedInfoMessage: false
+            })
+        }
         case "CHANGE_USER_LOGIN": {
             return Object.assign({}, state, {
                 login: action.value
@@ -94,7 +106,8 @@ const reducer = (state = initialState, action) => {
             return Object.assign({}, state, {
                 submit: true,
                 authorized: true,
-                openedModalWindow: false
+                openedModalWindow: false,
+                error: ""
             })
         }
         case "CATCH_ERROR": {
@@ -118,6 +131,26 @@ const reducer = (state = initialState, action) => {
                 submit: false
 
             })
+        }
+        case "MAKE_SUBMIT_ON_SIGN_IN": {
+            return Object.assign({}, state, {
+                submit: true,
+                authorized: true,
+                openedModalWindow: false,
+                error: ""
+            })
+        }
+        case "HANDLE_CHANGING_THE_PAGE": {
+            return Object.assign({}, state, {
+                error: "",
+                submit: false
+            })
+        }
+        case "ADD_ITEM_TO_BASKET": {
+            return Object.assign({}, state, {
+                mybasket: [...state.mybasket, action.value]
+            })
+
         }
         default:
             return state;

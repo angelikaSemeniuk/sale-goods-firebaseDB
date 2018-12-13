@@ -8,11 +8,16 @@ import {
     changePassword,
     makeSubmitOnSignUpForm,
     catchError,
-    setCurrentUser
+    setCurrentUser,
+    handleChangingThePage
 } from "../actions";
 
 
 class SignUp extends React.Component {
+
+    componentWillUnmount() {
+        this.props.handleChangingThePage();
+    }
 
     handleSignUp () {
         firebase.auth().createUserWithEmailAndPassword(this.props.login, this.props.password)
@@ -35,6 +40,7 @@ class SignUp extends React.Component {
                {this.props.submit ?
                    <Redirect to="/"/> :
                    <div className="sign-up">
+                       <p className="header"><strong>Sign Out</strong></p>
                        {this.props.error && <p className="error" dangerouslySetInnerHTML={{__html: this.props.error}}></p>}
                        <input
                            type="text"
@@ -82,6 +88,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         setCurrentUser: (currentUser) => {
             dispatch(setCurrentUser(currentUser));
+        },
+        handleChangingThePage: () => {
+            dispatch(handleChangingThePage());
         }
     }
 };
