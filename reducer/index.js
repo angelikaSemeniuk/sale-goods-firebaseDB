@@ -109,6 +109,16 @@ const reducer = (state = initialState, action) => {
                 currentUser: action.value
             })
         }
+        case "HANDLE_SIGN_OUT": {
+            return Object.assign({}, state, {
+                authorized: false,
+                login: "",
+                password: "",
+                currentUser: "",
+                submit: false
+
+            })
+        }
         default:
             return state;
     }

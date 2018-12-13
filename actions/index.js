@@ -103,3 +103,9 @@ export function setCurrentUser( currentUser) {
         value: currentUser
     }
 }
+
+export function handleSignOut() {
+    return {
+        type: "HANDLE_SIGN_OUT"
+    }
+}

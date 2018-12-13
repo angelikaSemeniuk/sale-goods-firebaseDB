@@ -15,6 +15,8 @@ import {
     handleChangeOnInput,
     openModalWindow,
     closeModalWindow,
+    handleSignOut,
+    catchError
 } from "../actions";
 
 const modalStyle = {
@@ -33,6 +35,15 @@ const modalStyle = {
 Modal.setAppElement(document.getElementById("root"));
 
 class Home extends React.Component {
+
+    handleSignOut() {
+        firebase.auth().signOut()
+            .then( () => (
+                this.props.handleSignOut()
+            ))
+            .catch((error) => this.props.catchError(error))
+
+    }
 
     render() {
         const inputSearch =
@@ -59,6 +70,7 @@ class Home extends React.Component {
                   <p onClick={this.props.openModalWindow.bind(this)}>Personal Cabinet</p> :
                   <>
                       {this.props.error && <p className="error" dangerouslySetInnerHTML={{__html: this.props.error}}></p>}
+                      <button onClick={this.handleSignOut.bind(this)}>Sign out</button>
                       <p dangerouslySetInnerHTML={{__html: "Welcome, " + this.props.currentUser}}></p>
                   </>;
         return(
@@ -103,7 +115,14 @@ const mapDispatchToProps = (dispatch) => {
         },
         closeModalWindow: () => {
             dispatch(closeModalWindow());
+        },
+        handleSignOut: () => {
+            dispatch(handleSignOut());
+        },
+        catchError: (error) => {
+            dispatch(catchError(error));
         }
+
     }
 };
 
