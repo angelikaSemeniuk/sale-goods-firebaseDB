@@ -15,7 +15,8 @@ const initialState = {
     error: "",
     currentUser: "",
     mybasket:[],
-    showedInfoMessage: false
+    showedInfoMessage: false,
+    itemAdded: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -25,6 +26,11 @@ const reducer = (state = initialState, action) => {
                 items: [...state.items, action.item],
                 searchedItems: [...state.searchedItems, action.item],
                 haveGotItems: true
+            })
+        }
+        case "CHECK_ON_AUTH_STATE_CHANGED": {
+            return Object.assign({}, state, {
+                authorized: !!action.value
             })
         }
         case "HANDLE_CHANGE_ON_INPUT": {
@@ -69,7 +75,8 @@ const reducer = (state = initialState, action) => {
                 addItem: false,
                 title: "",
                 status: "",
-                price: ""
+                price: "",
+                itemAdded: true
             })
         }
         case "OPEN_MODAL_WINDOW": {

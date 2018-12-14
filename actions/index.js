@@ -6,6 +6,13 @@ export function setArrayOfItems(title, status, price) {
     }
 }
 
+export function checkOnAuthStateChanged(user) {
+    return {
+        type: "CHECK_ON_AUTH_STATE_CHANGED",
+        value: user
+    }
+}
+
 export function handleChangeOnInput( value) {
     return {
         type: "HANDLE_CHANGE_ON_INPUT",

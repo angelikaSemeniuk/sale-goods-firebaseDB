@@ -47,7 +47,7 @@ class ListItem extends React.Component {
             >
                 <p className="error">{error}</p>
                 <button onClick={this.props.closeInfoMessage.bind(this)}>Close</button>
-            </Modal>
+            </Modal>;
         return(
 
             <li key={this.props.key}>
@@ -55,7 +55,7 @@ class ListItem extends React.Component {
                 <p dangerouslySetInnerHTML={{__html: "Status:  "+ this.props.item.status}}></p>
                 <p dangerouslySetInnerHTML={{__html: "Price:  "+ this.props.item.price}}></p>
                 {message}
-                <button onClick={this.toBuyItems.bind(this, this.props.item.title, this.props.item.price)}>To buy</button>
+                <button onClick={this.toBuyItems.bind(this, this.props.item.title, this.props.item.price)}>Add to basket</button>
             </li>
         );
     }
