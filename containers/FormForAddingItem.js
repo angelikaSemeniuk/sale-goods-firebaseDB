@@ -8,7 +8,8 @@ import {
     handleChangeOfStatus,
     handleChangeOfPrice,
     handleSubmitOnForm,
-    setArrayOfItems
+    setArrayOfItems,
+    setArrayOfPersonalAddedItems
 } from "../actions";
 
 class FormForAddingItem extends React.Component {
@@ -24,11 +25,12 @@ class FormForAddingItem extends React.Component {
             }
         );
         this.props.setArrayOfItems(this.props.title, this.props.status, this.props.price);
-        this.toAddOwnItem();
+        this.toAddOwnItem(this.props.title, this.props.status, this.props.price);
         this.props.handleSubmitOnForm();
     }
 
-    toAddOwnItem() {
+    toAddOwnItem(title, status, price) {
+        this.props.setPersonalAddedItems(title, status, price)
 
     }
 
@@ -57,7 +59,7 @@ class FormForAddingItem extends React.Component {
 
        return (
            <>
-               { this.props.itemAdded ?
+               { this.props.submit ?
                    <Redirect to="/"/> :
                    <div className="toadd-item-form">{toAddItemForm}</div>
                }
@@ -71,7 +73,7 @@ const mapStateToProps = (state) => {
         title: state.title,
         status: state.status,
         price: state.price,
-        itemAdded: state.itemAdded
+        submit: state.submit
     }
 };
 
@@ -91,6 +93,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         setArrayOfItems: (title, status, price) => {
             dispatch(setArrayOfItems(title, status, price));
+        },
+        setArrayOfPersonalAddedItems: (title, status, price) => {
+            dispatch(setArrayOfPersonalAddedItems(title, status, price));
         }
     }
 };

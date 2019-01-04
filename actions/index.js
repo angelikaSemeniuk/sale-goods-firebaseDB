@@ -1,8 +1,12 @@
 
 export function setArrayOfItems(title, status, price) {
-    return {
-        type: "SET_ARRAY_OF_ITEMS",
-        item: {title: title, status: status, price: price }
+    return function (dispatch) {
+        dispatch({
+            type: "SET_ARRAY_OF_ITEMS",
+            item: {title: title, status: status, price: price }
+        });
+        dispatch({type: "ADD_ATTRIBUTE_FOR_EACH_ITEM"})
+
     }
 }
 
@@ -129,11 +133,21 @@ export function handleChangingThePage() {
     }
 }
 
-export function addItemToBasket(title, price) {
-    return {
-        type: "ADD_ITEM_TO_BASKET",
-        value: [{title: title, price: price}]
-
+export function addItemToBasket(item, index) {
+    return function (dispatch) {
+        dispatch({
+            type: "CHANGE_ATTRIBUTE_FOR_ITEMS",
+            index: index,
+            addedToBasket: item.addedToBasket
+        });
+        dispatch({
+            type: "ADD_ITEM_TO_BASKET",
+            value: {title: item.title, price: item.price}
+        });
+        dispatch({
+            type: "ADD_BASKET_TO_THE_STORAGE",
+            value: {title: item.title, price: item.price}
+        });
     }
 }
 export function showInfoMessage() {
@@ -146,5 +160,11 @@ export function closeInfoMessage() {
     return {
         type: "CLOSE_INFO_MESSAGE"
     }
+}
 
+export function setArrayOfPersonalAddedItems (title, status, price) {
+    return {
+        type: "SET_ARRAY_OF_PERSONAL_ADDED_ITEMS",
+        value: {title: title, status: status, price: price}
+    }
 }

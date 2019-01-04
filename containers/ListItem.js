@@ -27,10 +27,9 @@ Modal.setAppElement(document.getElementById("root"));
 
 class ListItem extends React.Component {
 
-    toBuyItems(title, price) {
+    toBuyItems(item, index) {
         if(this.props.authorized) {
-            console.error("ACTION-title, price", title, price);
-            this.props.addItemToBasket(title, price);
+            this.props.addItemToBasket(item, index);
         } else {
             this.props.showInfoMessage();
         }
@@ -48,6 +47,11 @@ class ListItem extends React.Component {
                 <p className="error">{error}</p>
                 <button onClick={this.props.closeInfoMessage.bind(this)}>Close</button>
             </Modal>;
+        const alreadyAddedToMyBasket = this.props.mybasket.filter((item) => {
+            if(item.title === this.props.item.title) {
+                return item.title
+            }
+        });
         return(
 
             <li key={this.props.key}>
@@ -55,7 +59,10 @@ class ListItem extends React.Component {
                 <p dangerouslySetInnerHTML={{__html: "Status:  "+ this.props.item.status}}></p>
                 <p dangerouslySetInnerHTML={{__html: "Price:  "+ this.props.item.price}}></p>
                 {message}
-                <button onClick={this.toBuyItems.bind(this, this.props.item.title, this.props.item.price)}>Add to basket</button>
+                {alreadyAddedToMyBasket.length || this.props.item.addedToBasket ?
+                    <button disabled>Add to basket</button> :
+                    <button onClick={this.toBuyItems.bind(this, this.props.item, this.props.index)}>Add to basket</button>
+                }
             </li>
         );
     }
@@ -66,13 +73,14 @@ const mapStateToProps = (state) => {
         authorized: state.authorized,
         error: state.error,
         showedInfoMessage: state.showedInfoMessage,
+        mybasket: state.mybasket
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addItemToBasket: (title, price) => {
-            dispatch(addItemToBasket(title, price));
+        addItemToBasket: (item, index) => {
+            dispatch(addItemToBasket(item, index));
         },
         showInfoMessage: () => {
             dispatch(showInfoMessage());

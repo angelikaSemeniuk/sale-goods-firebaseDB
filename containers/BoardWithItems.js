@@ -32,6 +32,7 @@ class BoardWithItems extends React.Component {
             <ListItem
                 item={item}
                 key={index}
+                index={index}
             />
         ));
        if(!this.props.haveGotItems) {

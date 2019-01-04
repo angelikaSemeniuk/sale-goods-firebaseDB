@@ -15,6 +15,10 @@ import {
 class Home extends React.Component {
 
     render() {
+        const initialUsers = [];
+        if (!localStorage.getItem("users")) {
+            localStorage.setItem("users", JSON.stringify(initialUsers));
+        }
         const inputSearch =
             <input
                 type="search"

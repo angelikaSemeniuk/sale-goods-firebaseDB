@@ -16,8 +16,10 @@ const initialState = {
     currentUser: "",
     mybasket:[],
     showedInfoMessage: false,
-    itemAdded: false
+    personalAddedItems: []
 };
+
+const users = JSON.parse(localStorage.getItem("users"));
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
@@ -26,6 +28,15 @@ const reducer = (state = initialState, action) => {
                 items: [...state.items, action.item],
                 searchedItems: [...state.searchedItems, action.item],
                 haveGotItems: true
+            })
+        }
+        case "ADD_ATTRIBUTE_FOR_EACH_ITEM": {
+            return Object.assign({}, state, {
+                items: state.items.map((item) =>{
+                    return item = Object.assign({}, item, {
+                        addedToBasket: false
+                    })
+                })
             })
         }
         case "CHECK_ON_AUTH_STATE_CHANGED": {
@@ -76,7 +87,7 @@ const reducer = (state = initialState, action) => {
                 title: "",
                 status: "",
                 price: "",
-                itemAdded: true
+                submit: true
             })
         }
         case "OPEN_MODAL_WINDOW": {
@@ -125,6 +136,17 @@ const reducer = (state = initialState, action) => {
             })
         }
         case "SET_CURRENT_USER": {
+            let userAlreadyExist = false;
+            users.forEach((person) => {
+                if(person.name === action.value) {
+                    userAlreadyExist = true;
+                }
+            });
+            if(!userAlreadyExist) {
+                users.push({name: action.value, basket: []});
+                localStorage.setItem("users", JSON.stringify(users));
+            }
+            console.error("action-in SET_CURRENT_USER", users);
             return Object.assign({}, state, {
                 currentUser: action.value
             })
@@ -153,9 +175,42 @@ const reducer = (state = initialState, action) => {
                 submit: false
             })
         }
+        case "CHANGE_ATTRIBUTE_FOR_ITEMS": {
+            return Object.assign({}, state, {
+                items: state.items.map((item, index) =>{
+                    if(index === action.index) {
+                        return Object.assign({}, item, {
+                            addedToBasket: !action.addedToBasket
+                        })
+                    }
+                    return item
+                })
+            })
+        }
         case "ADD_ITEM_TO_BASKET": {
             return Object.assign({}, state, {
                 mybasket: [...state.mybasket, action.value]
+            })
+        }
+        case "ADD_BASKET_TO_THE_STORAGE": {
+            console.error("action-BEFORE", users);
+            users.map((person) => {
+                if(person.name === state.currentUser) {
+                    person.basket.push(action.value)
+                }
+            });
+            localStorage.setItem("users", JSON.stringify(users));
+            console.error("action-AFTER", users);
+            /*if(users.name === state.currentUser) {
+                console.error("action-User.name", user.name);
+                users.push({basket: [...state.mybasket]});
+                localStorage.setItem("user", JSON.stringify(user));
+            }*/
+            return state
+        }
+        case "SET_ARRAY_OF_PERSONAL_ADDED_ITEMS": {
+            return Object.assign({}, state, {
+                personalAddedItems: [...state.personalAddedItems, action.value]
             })
 
         }

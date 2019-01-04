@@ -49,6 +49,7 @@ class PersonalCabinet extends React.Component {
     }
 
     setCurrentUser() {
+        const users = JSON.parse(localStorage.getItem("users"));
         const { currentUser } = firebase.auth();
         this.props.setCurrentUser(currentUser.email);
     }
