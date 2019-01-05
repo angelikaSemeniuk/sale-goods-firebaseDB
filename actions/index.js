@@ -136,20 +136,44 @@ export function handleChangingThePage() {
 export function addItemToBasket(item, index) {
     return function (dispatch) {
         dispatch({
+            type: "ADD_ITEM_TO_BASKET",
+            value: {title: item.title, price: item.price, addedToBasket: item.addedToBasket}
+        });
+        dispatch({
             type: "CHANGE_ATTRIBUTE_FOR_ITEMS",
             index: index,
             addedToBasket: item.addedToBasket
         });
-        dispatch({
-            type: "ADD_ITEM_TO_BASKET",
-            value: {title: item.title, price: item.price}
-        });
+    }
+}
+
+export function addItemToBasketInTheLocalStorage(item) {
+    return function (dispatch) {
         dispatch({
             type: "ADD_BASKET_TO_THE_STORAGE",
-            value: {title: item.title, price: item.price}
+            value: {title: item.title, price: item.price, addedToBasket: item.addedToBasket}
+        });
+        dispatch({
+            type: "CHANGE_ATTRIBUTE_FOR_ITEMS_IN_STORAGE",
+            title: item.title,
+            addedToBasket: item.addedToBasket
         });
     }
 }
+export function deleteItemFromBasket (index) {
+    return function (dispatch) {
+        dispatch({
+            type: "DELETE_ITEM_FROM_BASKET_IN_STORAGE",
+            index: index
+        });
+        dispatch({
+            type: "DELETE_ITEM_FROM_BASKET",
+            index: index
+        });
+
+    }
+}
+
 export function showInfoMessage() {
     return {
         type: "SHOW_INFO_MESSAGE"

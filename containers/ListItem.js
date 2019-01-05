@@ -5,6 +5,7 @@ import Modal from "react-modal";
 
 import {
     addItemToBasket,
+    addItemToBasketInTheLocalStorage,
     showInfoMessage,
     closeInfoMessage
 } from "../actions";
@@ -30,6 +31,7 @@ class ListItem extends React.Component {
     toBuyItems(item, index) {
         if(this.props.authorized) {
             this.props.addItemToBasket(item, index);
+            this.props.addItemToBasketInTheLocalStorage(item);
         } else {
             this.props.showInfoMessage();
         }
@@ -37,6 +39,7 @@ class ListItem extends React.Component {
     }
 
     render() {
+        const users = JSON.parse(localStorage.getItem("users"));
         const error = "To buy items you need to be authorized. Go to your personal cabinet ";
         const message =
             <Modal
@@ -47,7 +50,18 @@ class ListItem extends React.Component {
                 <p className="error">{error}</p>
                 <button onClick={this.props.closeInfoMessage.bind(this)}>Close</button>
             </Modal>;
-        const alreadyAddedToMyBasket = this.props.mybasket.filter((item) => {
+        const addedToBasketInLocalStorage = () => {
+            let addedToBasket = false;
+            users.map((obj) => {
+                obj.basket.filter((item) => {
+                    if(item.title === this.props.item.title) {
+                        addedToBasket = true;
+                    }
+                });
+            });
+            return addedToBasket
+        };
+        const alreadyAddedToMyBasket = this.props.basket.filter((item) => {
             if(item.title === this.props.item.title) {
                 return item.title
             }
@@ -59,7 +73,7 @@ class ListItem extends React.Component {
                 <p dangerouslySetInnerHTML={{__html: "Status:  "+ this.props.item.status}}></p>
                 <p dangerouslySetInnerHTML={{__html: "Price:  "+ this.props.item.price}}></p>
                 {message}
-                {alreadyAddedToMyBasket.length || this.props.item.addedToBasket ?
+                { addedToBasketInLocalStorage() || alreadyAddedToMyBasket.length || this.props.item.addedToBasket ?
                     <button disabled>Add to basket</button> :
                     <button onClick={this.toBuyItems.bind(this, this.props.item, this.props.index)}>Add to basket</button>
                 }
@@ -73,7 +87,7 @@ const mapStateToProps = (state) => {
         authorized: state.authorized,
         error: state.error,
         showedInfoMessage: state.showedInfoMessage,
-        mybasket: state.mybasket
+        basket: state.basket
     }
 };
 
@@ -81,6 +95,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         addItemToBasket: (item, index) => {
             dispatch(addItemToBasket(item, index));
+        },
+        addItemToBasketInTheLocalStorage: (item) => {
+            dispatch(addItemToBasketInTheLocalStorage(item))
         },
         showInfoMessage: () => {
             dispatch(showInfoMessage());
